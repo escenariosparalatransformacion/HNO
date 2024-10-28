@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis Situacional Humanitario 2024</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            /* OCHA Color Palette */
+            --ocha-blue: #1B8CDB;
+            --ocha-red: #E43D2C;
+            --ocha-orange: #F79A3B;
+            --ocha-green: #64B265;
+            --ocha-purple: #9E5391;
+            --ocha-gray: #8C8C8C;
+            
+            /* Secondary OCHA Colors */
+            --ocha-dark-blue: #1F4262;
+            --ocha-light-blue: #82B5E9;
+            --ocha-light-gray: #EAEAEA;
+            --ocha-dark-gray: #4A4A4A;
+            
+            /* Combined Color for Medium-High Complexity */
+            --ocha-medium-high: linear-gradient(135deg, #E43D2C 0%, #F79A3B 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: var(--ocha-light-gray);
+            color: var(--ocha-dark-gray);
+        }
+
+	    .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header-content {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-top: 5px solid var(--ocha-blue);
+        }
+
+        h1 {
+            color: var(--ocha-dark-blue);
+            margin-bottom: 20px;
+        }
+
+        .state-selector {
+            display: flex;
+            justify-content: center;
+        }
+
+        .state-btn {
+            background-color: var(--ocha-light-blue);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 0 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .state-btn.active {
+            background-color: var(--ocha-blue);
+        }
+
+        .section {
+            margin-bottom: 40px;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            color: var(--ocha-dark-blue);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title i {
+            margin-right: 10px;
+        }
+
+        .state-content {
+            display: none; /* Ocultar contenido por defecto */
+        }
+
+        .state-content.active {
+            display: block; /* Mostrar contenido del estado activo */
+        }
+
+        .synthesis-quote {
+            background-color: var(--ocha-light-gray);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .info-card {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .info-card h3 {
+            color: var(--ocha-dark-blue);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .info-card h3 i {
+            margin-right: 10px;
+        }
+
+        .status-tag {
+            padding: 5px 10px;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .status-tag.critical {
+            background-color: var(--ocha-red);
+        }
+
+        .status-tag.medium-high {
+            background: var(--ocha-medium-high);
+        }
+
+        .municipal-note {
+            margin-bottom: 20px;
+            font-style: italic;
+            color: var(--ocha-gray);
+            display: flex;
+            align-items: center;
+        }
+
+        .municipal-note i {
+            margin-right: 5px;
+        }
+
+        .municipalities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-gap: 20px;
+        }
+
+        .municipality-card {
+            border: 1px solid #dee2e6;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .municipality-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .municipality-header i {
+            margin-right: 10px;
+            color: var(--ocha-blue);
+        }
+
+        .municipality-header h3 {
+            color: var(--ocha-dark-blue);
+        }
+
+        .key-metrics {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .metric {
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .findings-list {
+            list-style: disc;
+            padding-left: 20px;
+        }
+
+        .accordion {
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .accordion-header {
+            background-color: #f8f9fa;
+            padding: 15px;
+            cursor: pointer;
+            border-bottom: 1px solid #dee2e6;
+            display: flex;
+            align-items: center;
+        }
+
+        .accordion-header.active {
+            background-color: #e9ecef;
+        }
+
+        .accordion-header i {
+            margin-right: 10px;
+            color: var(--ocha-blue);
+        }
+
+        .accordion-content {
+            display: none;
+            padding: 20px;
+        }
+
+        .accordion-content.active {
+            display: block;
+        }
+
+        .findings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-gap: 20px;
+        }
+
+        .findings-box {
+            border: 1px solid #dee2e6;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .findings-box h4 {
+            color: var(--ocha-dark-blue);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .findings-box h4 i {
+            margin-right: 10px;
+        }
+
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-gap: 20px;
+        }
+
+        .analysis-card {
+            border: 1px solid #dee2e6;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .analysis-card h4 {
+            color: var(--ocha-dark-blue);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .analysis-card h4 i {
+            margin-right: 10px;
+        }
+
+        .action-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-gap: 20px;
+        }
+
+        .action-step {
+            border: 1px solid #dee2e6;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .step-number {
+            background-color: var(--ocha-blue);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 50%;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .action-step h4 {
+            color: var(--ocha-dark-blue);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .action-step h4 i {
+            margin-right: 10px;
+        }
+
+        .footer {
+            background-color: var(--ocha-dark-blue);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        .footer-section {
+            margin-bottom: 20px;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-section h3 i {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header-content">
+            <h1>Análisis Situacional Humanitario 2024</h1>
+            <div class="state-selector">
+                <button class="state-btn active" data-state="zulia">Zulia</button>
+                <button class="state-btn" data-state="falcon">Falcón</button>
+            </div>
+        </div>
+
+        <!-- Contexto Regional -->
+        <section class="section context-section">
+            <h2 class="section-title">
+                <i class="fas fa-globe"></i>
+                Contexto Regional
+            </h2>
+            
+            <div id="zulia-context" class="state-content active">
+                <div class="synthesis-quote">
+                    "La dinámica fronteriza y la presencia de grupos armados plantean desafíos específicos de protección y seguridad para la respuesta humanitaria"
+                </div>
+                
+                <div class="info-card">
+                    <h3><i class="fas fa-map-marker-alt"></i> Zulia</h3>
+                    <p>Zulia presenta una compleja dinámica fronteriza y diversidad geográfica que genera desafíos únicos para la respuesta humanitaria, exacerbados por la presencia de grupos armados y vulnerabilidades específicas de comunidades indígenas.</p>
+                    <div class="status-tag critical">Alta Complejidad</div>
+                </div>
+
+                <div class="municipal-note">
+                    <i class="fas fa-info-circle"></i> Estos municipios representan las zonas donde se evidencian mayores necesidades de protección y seguridad:
+                </div>
+
+                <div class="municipalities-grid">
+                    <div class="municipality-card">
+                        <div class="municipality-header">
+                            <i class="fas fa-city"></i>
+                            <h3>Guajira</h3>
+                        </div>
+                        <div class="key-metrics">
+                            <div class="metric">
+                                <div class="metric-value">75%</div>
+                                <div class="metric-label">Sin acceso a servicios básicos</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-value">60%</div>
+                                <div class="metric-label">Inseguridad alimentaria</div>
+                            </div>
+                        </div>
+                        <ul class="findings-list">
+                            <li>Mayor concentración de población Wayúu</li>
+                            <li>Riesgos de protección en zona fronteriza</li>
+                            <li>Crisis por sequías recurrentes</li>
+                            <li>Presencia institucional limitada</li>
+                        </ul>
+                    </div>
+			        <div class="municipality-card">
+                        <div class="municipality-header">
+                            <i class="fas fa-city"></i>
+                            <h3>Jesús María Semprún</h3>
+                        </div>
+                        <div class="key-metrics">
+                            <div class="metric">
+                                <div class="metric-label">Protección</div>
+                                <div class="metric-value">Crítica</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-label">Necesidades</div>
+                                <div class="metric-value">Severas</div>
+                            </div>
+                        </div>
+                        <ul class="findings-list">
+                            <li>Presencia de grupos armados no estatales</li>
+                            <li>Alto índice de movilidad humana</li>
+                            <li>Dinámicas complejas de seguridad</li>
+                            <li>Desafíos de protección en juventud</li>
+                        </ul>
+                    </div>
+
+                    <div class="municipality-card">
+                        <div class="municipality-header">
+                            <i class="fas fa-city"></i>
+                            <h3>Machiques de Perijá</h3>
+                        </div>
+                        <div class="key-metrics">
+                            <div class="metric">
+                                <div class="metric-value">55%</div>
+                                <div class="metric-label">Necesidades multisectoriales</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-label">Protección</div>
+                                <div class="metric-value">Alta</div>
+                            </div>
+                        </div>
+                        <ul class="findings-list">
+                            <li>Comunidades Yukpa y Barí con necesidades específicas</li>
+                            <li>Dinámicas de protección en territorios indígenas</li>
+                            <li>Riesgos de protección para juventud</li>
+                            <li>Tensiones por recursos naturales</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="falcon-context" class="state-content">
+                <div class="synthesis-quote">
+                    "La vulnerabilidad ante eventos climáticos y el deterioro de servicios básicos configuran un escenario de necesidades humanitarias complejas"
+                </div>
+                
+                <div class="info-card">
+                    <h3><i class="fas fa-map-marker-alt"></i> Falcón</h3>
+                    <p>Falcón enfrenta retos particulares debido a su extenso litoral y zonas rurales remotas, con alta vulnerabilidad ante eventos climáticos y desafíos críticos en acceso a servicios básicos.</p>
+                    <div class="status-tag medium-high">Complejidad Media-Alta</div>
+                </div>
+
+                <div class="municipal-note">
+                    <i class="fas fa-info-circle"></i> Los siguientes municipios ilustran las zonas con mayor afectación por eventos climáticos y deterioro de servicios:
+                </div>
+
+                <div class="municipalities-grid">
+                    <div class="municipality-card">
+                        <div class="municipality-header">
+                            <i class="fas fa-city"></i>
+                            <h3>Península de Paraguaná</h3>
+                        </div>
+                        <div class="key-metrics">
+                            <div class="metric">
+                                <div class="metric-value">85%</div>
+                                <div class="metric-label">Crisis hídrica</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-value">70%</div>
+                                <div class="metric-label">Deterioro servicios</div>
+                            </div>
+                        </div>
+                        <ul class="findings-list">
+                            <li>Severa escasez de agua</li>
+                            <li>Impacto de eventos climáticos</li>
+                            <li>Infraestructura básica deteriorada</li>
+                            <li>Alta movilidad por búsqueda de servicios</li>
+                        </ul>
+                    </div>
+			        <div class="municipality-card">
+                        <div class="municipality-header">
+                            <i class="fas fa-city"></i>
+                            <h3>Dabajuro</h3>
+                        </div>
+                        <div class="key-metrics">
+                            <div class="metric">
+                                <div class="metric-value">45%</div>
+                                <div class="metric-label">Inseguridad alimentaria</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-label">Eventos Climáticos</div>
+                                <div class="metric-value">Recurrentes</div>
+                            </div>
+                        </div>
+                        <ul class="findings-list">
+                            <li>Inundaciones en temporada lluviosa</li>
+                            <li>Medios de vida afectados por clima</li>
+                            <li>Deterioro de infraestructura vial</li>
+                            <li>Limitado acceso a servicios básicos</li>
+                        </ul>
+                    </div>
+
+                    <div class="municipality-card">
+                        <div class="municipality-header">
+                            <i class="fas fa-city"></i>
+                            <h3>Buchivacoa</h3>
+                        </div>
+                        <div class="key-metrics">
+                            <div class="metric">
+                                <div class="metric-value">55%</div>
+                                <div class="metric-label">Sin servicios de salud</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-value">40%</div>
+                                <div class="metric-label">Deserción escolar</div>
+                            </div>
+                        </div>
+                        <ul class="findings-list">
+                            <li>Comunidades pesqueras vulnerables</li>
+                            <li>Alta exposición a eventos naturales</li>
+                            <li>Servicios básicos deteriorados</li>
+                            <li>Debilidad institucional</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Planteamientos Claves -->
+        <section class="section planteamientos-section">
+            <h2 class="section-title">
+                <i class="fas fa-key"></i>
+                Planteamientos Claves
+            </h2>
+
+            <div id="zulia-planteamientos" class="state-content active">
+                <div class="synthesis-quote">
+                    "Las dinámicas de seguridad y protección requieren un abordaje territorial diferenciado con énfasis en comunidades indígenas y zonas fronterizas"
+                </div>
+
+                <div class="accordion">
+                    <div class="accordion-header" onclick="toggleAccordion('zulia-planteamiento1')">
+                        <i class="fas fa-shield-alt"></i>
+                        Protección y Seguridad Territorial
+                    </div>
+                    <div id="zulia-planteamiento1" class="accordion-content">
+                        <div class="info-card">
+                            <p>Las dinámicas fronterizas y la presencia de grupos armados generan riesgos específicos para las comunidades</p>
+                        </div>
+                        <div class="findings-grid">
+                            <div class="findings-box">
+                                <h4><i class="fas fa-chart-bar"></i> Hallazgos Sectoriales</h4>
+                                <ul class="findings-list">
+                                    <li>Crisis de protección en zonas fronterizas</li>
+                                    <li>Riesgos específicos para comunidades indígenas</li>
+                                    <li>Dinámicas complejas de seguridad</li>
+                                    <li>Necesidades de protección en juventud</li>
+                                </ul>
+                            </div>
+                            <div class="findings-box">
+                                <h4><i class="fas fa-network-wired"></i> Hallazgos Intersectoriales</h4>
+                                <ul class="findings-list">
+                                    <li>Impacto en movilidad humana</li>
+                                    <li>Afectación a medios de vida</li>
+                                    <li>Limitaciones institucionales</li>
+                                    <li>Coordinación territorial compleja</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+		        <div class="accordion">
+                    <div class="accordion-header" onclick="toggleAccordion('zulia-planteamiento2')">
+                        <i class="fas fa-users"></i>
+                        Fortalecimiento de Protección Comunitaria
+                    </div>
+                    <div id="zulia-planteamiento2" class="accordion-content">
+                        <div class="info-card">
+                            <p>Las comunidades indígenas y fronterizas requieren mecanismos de protección específicos y culturalmente adaptados</p>
+                        </div>
+                        <div class="findings-grid">
+                            <div class="findings-box">
+                                <h4><i class="fas fa-chart-bar"></i> Hallazgos Sectoriales</h4>
+                                <ul class="findings-list">
+                                    <li>Necesidades específicas Wayúu y Yukpa</li>
+                                    <li>Sistemas de protección comunitaria débiles</li>
+                                    <li>Mecanismos tradicionales afectados</li>
+                                    <li>Desafíos de cohesión social</li>
+                                </ul>
+                            </div>
+                            <div class="findings-box">
+                                <h4><i class="fas fa-network-wired"></i> Hallazgos Intersectoriales</h4>
+                                <ul class="findings-list">
+                                    <li>Vínculos protección-medios de vida</li>
+                                    <li>Impacto en educación y salud</li>
+                                    <li>Necesidad de enfoques adaptados</li>
+                                    <li>Brechas en servicios culturales</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion">
+                    <div class="accordion-header" onclick="toggleAccordion('zulia-planteamiento3')">
+                        <i class="fas fa-handshake"></i>
+                        Coordinación y Respuesta Territorial
+                    </div>
+                    <div id="zulia-planteamiento3" class="accordion-content">
+                        <div class="info-card">
+                            <p>La complejidad territorial requiere mecanismos de coordinación adaptados y respuestas multisectoriales</p>
+                        </div>
+                        <div class="findings-grid">
+                            <div class="findings-box">
+                                <h4><i class="fas fa-chart-bar"></i> Hallazgos Sectoriales</h4>
+                                <ul class="findings-list">
+                                    <li>Coordinación fronteriza limitada</li>
+                                    <li>Capacidades locales insuficientes</li>
+                                    <li>Respuesta fragmentada</li>
+                                    <li>Brechas en monitoreo territorial</li>
+                                </ul>
+                            </div>
+                            <div class="findings-box">
+                                <h4><i class="fas fa-network-wired"></i> Hallazgos Intersectoriales</h4>
+                                <ul class="findings-list">
+                                    <li>Necesidad de respuestas integradas</li>
+                                    <li>Articulación institucional débil</li>
+                                    <li>Vacíos en información territorial</li>
+                                    <li>Desafíos operativos múltiples</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="falcon-planteamientos" class="state-content">
+                <div class="synthesis-quote">
+                    "La vulnerabilidad climática y el deterioro de servicios básicos demandan estrategias de resiliencia y recuperación de infraestructura"
+                </div>
+		        <div class="accordion">
+                    <div class="accordion-header" onclick="toggleAccordion('falcon-planteamiento1')">
+                        <i class="fas fa-cloud-sun-rain"></i>
+                        Resiliencia ante Eventos Climáticos
+                    </div>
+                    <div id="falcon-planteamiento1" class="accordion-content">
+                        <div class="info-card">
+                            <p>La exposición a eventos climáticos afecta severamente a las comunidades costeras y rurales</p>
+                        </div>
+                        <div class="findings-grid">
+                            <div class="findings-box">
+                                <h4><i class="fas fa-chart-bar"></i> Hallazgos Sectoriales</h4>
+                                <ul class="findings-list">
+                                    <li>Alta vulnerabilidad en zona costera</li>
+                                    <li>Sequías e inundaciones recurrentes</li>
+                                    <li>Infraestructura no adaptada</li>
+                                    <li>Sistemas de alerta insuficientes</li>
+                                </ul>
+                            </div>
+                            <div class="findings-box">
+                                <h4><i class="fas fa-network-wired"></i> Hallazgos Intersectoriales</h4>
+                                <ul class="findings-list">
+                                    <li>Medios de vida afectados</li>
+                                    <li>Movilidad por eventos climáticos</li>
+                                    <li>Impacto en servicios básicos</li>
+                                    <li>Capacidad adaptativa limitada</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion">
+                    <div class="accordion-header" onclick="toggleAccordion('falcon-planteamiento2')">
+                        <i class="fas fa-wrench"></i>
+                        Recuperación de Servicios Básicos
+                    </div>
+                    <div id="falcon-planteamiento2" class="accordion-content">
+                        <div class="info-card">
+                            <p>El deterioro crítico de servicios básicos requiere intervenciones urgentes de rehabilitación</p>
+                        </div>
+                        <div class="findings-grid">
+                            <div class="findings-box">
+                                <h4><i class="fas fa-chart-bar"></i> Hallazgos Sectoriales</h4>
+                                <ul class="findings-list">
+                                    <li>Crisis hídrica generalizada</li>
+                                    <li>Sistemas sanitarios colapsados</li>
+                                    <li>Infraestructura deteriorada</li>
+                                    <li>Servicios de salud limitados</li>
+                                </ul>
+                            </div>
+                            <div class="findings-box">
+                                <h4><i class="fas fa-network-wired"></i> Hallazgos Intersectoriales</h4>
+                                <ul class="findings-list">
+                                    <li>Necesidades multisectoriales</li>
+                                    <li>Recursos técnicos insuficientes</li>
+                                    <li>Capacidad operativa reducida</li>
+                                    <li>Brechas en mantenimiento</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion">
+                    <div class="accordion-header" onclick="toggleAccordion('falcon-planteamiento3')">
+                        <i class="fas fa-solar-panel"></i>
+                        Soluciones Sostenibles
+                    </div>
+                    <div id="falcon-planteamiento3" class="accordion-content">
+                        <div class="info-card">
+                            <p>Se requieren alternativas sostenibles para garantizar acceso continuo a servicios básicos</p>
+                        </div>
+                        <div class="findings-grid">
+                            <div class="findings-box">
+                                <h4><i class="fas fa-chart-bar"></i> Hallazgos Sectoriales</h4>
+                                <ul class="findings-list">
+                                    <li>Dependencia de sistemas tradicionales</li>
+                                    <li>Alternativas energéticas limitadas</li>
+                                    <li>Tecnologías no adaptadas</li>
+                                    <li>Recursos locales subutilizados</li>
+                                </ul>
+                            </div>
+                            <div class="findings-box">
+                                <h4><i class="fas fa-network-wired"></i> Hallazgos Intersectoriales</h4>
+                                <ul class="findings-list">
+                                    <li>Necesidad de innovación</li>
+                                    <li>Capacidades técnicas débiles</li>
+                                    <li>Sostenibilidad comprometida</li>
+                                    <li>Brecha tecnológica creciente</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Panorama Central -->
+        <section class="section insight-section">
+            <h2 class="section-title">
+                <i class="fas fa-eye"></i>
+                Panorama Central
+            </h2>
+
+            <div id="zulia-insight" class="state-content active">
+                <div class="synthesis-quote">
+                    "La convergencia de dinámicas fronterizas, presencia de grupos armados y vulnerabilidades de comunidades indígenas configura escenarios complejos que demandan respuestas diferenciadas"
+                </div>
+
+                <div class="analysis-grid">
+                    <div class="analysis-card">
+                        <h4><i class="fas fa-exclamation-triangle"></i> Necesidades Críticas</h4>
+                        <ul class="findings-list">
+                            <li>Protección de comunidades indígenas</li>
+                            <li>Seguridad en zonas fronterizas</li>
+                            <li>Mecanismos de protección comunitaria</li>
+                            <li>Servicios culturalmente adaptados</li>
+                            <li>Fortalecimiento institucional local</li>
+                        </ul>
+                    </div>
+
+                    <div class="analysis-card">
+                        <h4><i class="fas fa-check-circle"></i> Respuesta Actual</h4>
+                        <ul class="findings-list">
+                            <li>Programas de protección focalizados</li>
+                            <li>Mecanismos de coordinación territorial</li>
+                            <li>Intervenciones multisectoriales</li>
+                            <li>Iniciativas de protección comunitaria</li>
+                            <li>Apoyo a estructuras tradicionales</li>
+                        </ul>
+                    </div>
+
+                    <div class="analysis-card">
+                        <h4><i class="fas fa-exclamation-circle"></i> Brechas Críticas</h4>
+                        <ul class="findings-list">
+                            <li>Capacidad de respuesta en fronteras</li>
+                            <li>Mecanismos de protección integral</li>
+                            <li>Recursos para comunidades indígenas</li>
+                            <li>Coordinación interinstitucional</li>
+                            <li>Sistemas de monitoreo territorial</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="falcon-insight" class="state-content">
+                <div class="synthesis-quote">
+                    "La vulnerabilidad climática y el deterioro de servicios básicos requieren soluciones innovadoras y sostenibles adaptadas al contexto local"
+                </div>
+
+                <div class="analysis-grid">
+                    <div class="analysis-card">
+                        <h4><i class="fas fa-exclamation-triangle"></i> Necesidades Críticas</h4>
+                        <ul class="findings-list">
+                            <li>Sistemas de agua resilientes</li>
+                            <li>Infraestructura adaptada al clima</li>
+                            <li>Servicios básicos sostenibles</li>
+                            <li>Capacidad técnica local</li>
+                            <li>Mecanismos de alerta temprana</li>
+                        </ul>
+                    </div>
+
+                    <div class="analysis-card">
+                        <h4><i class="fas fa-check-circle"></i> Respuesta Actual</h4>
+                        <ul class="findings-list">
+                            <li>Rehabilitación de sistemas WASH</li>
+                            <li>Programas de resiliencia climática</li>
+                            <li>Iniciativas de energía alternativa</li>
+                            <li>Fortalecimiento comunitario</li>
+                            <li>Mejoras en infraestructura básica</li>
+                        </ul>
+                    </div>
+
+                    <div class="analysis-card">
+                        <h4><i class="fas fa-exclamation-circle"></i> Brechas Críticas</h4>
+                        <ul class="findings-list">
+                            <li>Recursos para adaptación climática</li>
+                            <li>Capacidad técnica especializada</li>
+                            <li>Sistemas sostenibles de servicios</li>
+                            <li>Tecnologías adaptadas al contexto</li>
+                            <li>Mantenimiento de infraestructura</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Próximos Pasos -->
+        <section class="section next-steps-section">
+            <h2 class="section-title">
+                <i class="fas fa-forward"></i>
+                Próximos Pasos
+            </h2>
+
+            <div id="zulia-steps" class="state-content active">
+                <div class="synthesis-quote">
+                    "Las intervenciones deben priorizar la protección y seguridad de las comunidades, especialmente en zonas fronterizas y territorios indígenas"
+                </div>
+
+                <div class="action-steps">
+                    <div class="action-step">
+                        <span class="step-number">1</span>
+                        <h4><i class="fas fa-shield-alt"></i> Acciones Inmediatas</h4>
+                        <ul class="findings-list">
+                            <li>Fortalecer mecanismos de protección comunitaria</li>
+                            <li>Establecer rutas de atención diferenciada</li>
+                            <li>Activar coordinación territorial</li>
+                            <li>Implementar respuestas culturalmente adaptadas</li>
+                            <li>Reforzar estructuras comunitarias</li>
+                        </ul>
+                    </div>
+
+                    <div class="action-step">
+                        <span class="step-number">2</span>
+                        <h4><i class="fasa-users"></i> Acciones Prioritarias</h4>
+                        <ul class="findings-list">
+                            <li>Desarrollar capacidades de protección local</li>
+                            <li>Fortalecer liderazgos indígenas</li>
+                            <li>Establecer sistemas de monitoreo</li>
+                            <li>Mejorar coordinación interinstitucional</li>
+                            <li>Adaptar servicios a contextos específicos</li>
+                        </ul>
+                    </div>
+
+                    <div class="action-step">
+                        <span class="step-number">3</span>
+                        <h4><i class="fas fa-handshake"></i> Líneas Estratégicas</h4>
+                        <ul class="findings-list">
+                            <li>Consolidar estructuras de protección</li>
+                            <li>Desarrollar respuestas territoriales</li>
+                            <li>Fortalecer gobernanza indígena</li>
+                            <li>Establecer mecanismos sostenibles</li>
+                            <li>Promover diálogo territorial</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="falcon-steps" class="state-content">
+                <div class="synthesis-quote">
+                    "El fortalecimiento de la resiliencia climática y la recuperación de servicios básicos son prioridades para la acción humanitaria"
+                </div>
+
+                <div class="action-steps">
+                    <div class="action-step">
+                        <span class="step-number">1</span>
+                        <h4><i class="fas fa-water"></i> Acciones Inmediatas</h4>
+                        <ul class="findings-list">
+                            <li>Rehabilitar sistemas de agua críticos</li>
+                            <li>Implementar soluciones temporales</li>
+                            <li>Establecer mecanismos de alerta</li>
+                            <li>Fortalecer capacidad local</li>
+                            <li>Asegurar servicios esenciales</li>
+                        </ul>
+                    </div>
+
+                    <div class="action-step">
+                        <span class="step-number">2</span>
+                        <h4><i class="fas fa-tools"></i> Acciones Prioritarias</h4>
+                        <ul class="findings-list">
+                            <li>Desarrollar infraestructura resiliente</li>
+                            <li>Implementar energías alternativas</li>
+                            <li>Fortalecer capacidades técnicas</li>
+                            <li>Establecer sistemas sostenibles</li>
+                            <li>Mejorar gestión de recursos</li>
+                        </ul>
+                    </div>
+
+                    <div class="action-step">
+                        <span class="step-number">3</span>
+                        <h4><i class="fas fa-seedling"></i> Líneas Estratégicas</h4>
+                        <ul class="findings-list">
+                            <li>Consolidar resiliencia comunitaria</li>
+                            <li>Desarrollar soluciones sostenibles</li>
+                            <li>Fortalecer capacidad adaptativa</li>
+                            <li>Establecer sistemas integrales</li>
+                            <li>Promover innovación local</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3><i class="fas fa-info-circle"></i> Sobre este Análisis</h3>
+                <p>Información basada en los resultados de los Talleres de Análisis octubre 2024 en Zulia y Falcón</p>
+            </div>
+            <div class="footer-section">
+                <h3><i class="fas fa-map-marker-alt"></i> OCHA Venezuela</h3>
+                <p>Sub Oficina Maracaibo</p>
+            </div>
+            <div class="footer-section">
+                <h3><i class="fas fa-calendar"></i> Actualización</h3>
+                <p>Octubre 2024</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Estado inicial
+            let currentState = 'zulia';
+
+            // Función para actualizar la vista del estado activo
+            function updateStateView(stateId) {
+                const stateBtns = document.querySelectorAll('.state-btn');
+                const stateContents = document.querySelectorAll('.state-content');
+
+                // Actualizar botones
+                stateBtns.forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.state === stateId);
+                });
+
+                // Actualizar contenido
+                stateContents.forEach(content => {
+                    const contentState = content.id.split('-')[0];
+                    content.classList.toggle('active', contentState === stateId);
+                });
+
+                // Actualizar URL sin recargar la página
+                history.pushState({state: stateId}, '', `#${stateId}`);
+            }
+
+            // Event listeners para los botones de estado
+            document.querySelectorAll('.state-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    currentState = this.dataset.state;
+                    updateStateView(currentState);
+                });
+            });
+
+            // Función para manejar los acordeones
+            window.toggleAccordion = function(id) {
+                const content = document.getElementById(id);
+                const allContents = document.querySelectorAll('.accordion-content');
+                const header = content.previousElementSibling;
+                
+                // Cerrar otros acordeones
+                allContents.forEach(item => {
+                    if (item.id !== id && item.classList.contains('active')) {
+                        item.classList.remove('active');
+                        item.previousElementSibling.classList.remove('active');
+                    }
+                });
+                
+                // Alternar el acordeón actual
+                content.classList.toggle('active');
+                header.classList.toggle('active');
+
+                // Scroll suave hacia el contenido si está abierto
+                if (content.classList.contains('active')) {
+                    content.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            }
+
+            // Manejar la navegación del historial
+            window.addEventListener('popstate', function(event) {
+                if (event.state && event.state.state) {
+                    updateStateView(event.state.state);
+                }
+            });
+
+            // Inicializar la vista con el estado del hash URL si existe
+            const hashState = window.location.hash.slice(1);
+            if (hashState && ['zulia', 'falcon'].includes(hashState)) {
+                currentState = hashState;
+                updateStateView(currentState);
+            }
+
+            // Función para actualizar métricas dinámicamente
+            function updateMetrics() {
+                document.querySelectorAll('.metric-value').forEach(metric => {
+                    const value = parseFloat(metric.textContent);
+                    if (value >= 70) {
+                        metric.style.color = 'var(--ocha-red)';
+                    } else if (value >= 50) {
+                        metric.style.color = 'var(--ocha-orange)';
+                    } else {
+                        metric.style.color = 'var(--ocha-blue)';
+                    }
+                });
+            }
+
+            // Inicializar métricas
+            updateMetrics();
+        });
+    </script>
+</body>
+</html>
